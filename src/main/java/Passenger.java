@@ -1,7 +1,5 @@
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.Random;
+import java.util.HashMap;
 
 public class Passenger {
 
@@ -16,8 +14,59 @@ public class Passenger {
         this.uniqueId = uniqueId;
     }
 
+    public static ArrayList<Passenger> passengersList(){
+
+        ArrayList<Passenger> passengerList = new ArrayList<>();
+        Passenger Passenger1 = Passenger.getPassenger1();
+        Passenger Passenger2 = Passenger.getPassenger2();
+        Passenger Passenger3 = Passenger.getPassenger3();
+        Passenger Passenger4 = Passenger.getPassenger4();
+
+            passengerList.add(Passenger1);
+            passengerList.add(Passenger2);
+            passengerList.add(Passenger3);
+            passengerList.add(Passenger4);
+
+            return passengerList;
+    }
+
+    public static HashMap<Integer, Passenger> passengerHashMap(){
+        ArrayList<Passenger> passengerList = Passenger.passengersList();
+
+            HashMap<Integer, Passenger> passengerHashMap = new HashMap<>();
+        passengerHashMap.put(passengerList.get(0).getUniqueId(), passengerList.get(0));
+        passengerHashMap.put(passengerList.get(1).getUniqueId(), passengerList.get(1));
+        passengerHashMap.put(passengerList.get(2).getUniqueId(), passengerList.get(2));
+        passengerHashMap.put(passengerList.get(3).getUniqueId(), passengerList.get(3));
+            return passengerHashMap;
+
+    }
 
 
+    public static Passenger getPassenger1(){
+            Passenger Passenger1 = new Passenger("Alex", 01234, 01234);
+            return Passenger1;
+    }
+
+    public static Passenger getPassenger2(){
+        Passenger Passenger2 = new Passenger("Harry", 452834, 01235);
+        return Passenger2;
+    }
+    public static Passenger getPassenger3() {
+        Passenger Passenger3 = new Passenger("Becca", 2348234, 01236);
+        return Passenger3;
+    }
+
+    public static Passenger getPassenger4() {
+        Passenger Passenger4 = new Passenger("Maisha", 678234, 01237);
+        return Passenger4;
+    }
+
+
+
+    public int getUniqueId() {
+        return uniqueId;
+    }
 
     public String getName() {
         return name;
@@ -35,20 +84,11 @@ public class Passenger {
         this.contactInformation = contactInformation;
     }
 
-    public int getUniqueId() {
-        return uniqueId;
-    }
-
-    public void setUniqueId(int uniqueId) {
-        this.uniqueId = uniqueId;
-    }
 
     @Override
     public String toString() {
-        return "Passenger{" +
-                "name='" + name + '\'' +
-                ", contactInformation=" + contactInformation +
-                ", uniqueId=" + uniqueId +
-                '}';
+        return  "Passenger: [Name:" + name + " -" +
+                " Contact:" + contactInformation + " -" +
+                " ID:" + uniqueId + "]";
     }
 }

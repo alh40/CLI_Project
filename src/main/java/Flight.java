@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.Random;
+import java.util.*;
 
 public class Flight {
 
@@ -9,13 +7,14 @@ public class Flight {
     private ArrayList<Passenger> passengerList;
 
 
-    public Flight(String destination, int id, ArrayList<Passenger> passengerList) {
+//    public Flight(String destination, int id, ArrayList<Passenger> passengerList) {
+    public Flight(String destination, int id) {
         this.destination = destination;
         this.id = id;
-        this.passengerList = passengerList;
+        this.passengerList = new ArrayList<>();
     }
 
-    public static ArrayList<Integer> setUniqueId(){
+    private static ArrayList<Integer> setUniqueId(){
         LinkedHashSet<Integer> uniqueIdSet = new LinkedHashSet<>();
         Random uniqueId = new Random();
 
@@ -29,8 +28,38 @@ public class Flight {
     }
 
 
+    public static ArrayList<Flight> flightList() {
+        ArrayList<Flight> flights = new ArrayList<>();
+
+        Flight flight1 = new Flight("Lisbon", 1);
+        Flight flight2 = new Flight("London", 2);
+        Flight flight3 = new Flight("Paris", 3);
+        Flight flight4 = new Flight("Berlin", 4);
+        Flight flight5 = new Flight("Berlin", 5);
+
+        flights.add(flight1);
+        flights.add(flight2);
+        flights.add(flight3);
+        flights.add(flight4);
+        flights.add(flight5);
+
+        return flights;
+    }
+
     public String getDestination() {
-        return destination;
+        return this.destination;
+    }
+
+    @Override
+    public String toString() {
+//        return "Flight{" +
+//                "destination='" + destination + '\'' +
+//                ", id=" + id +
+//                ", passengerList=" + passengerList +
+//                '}';
+        return  "Flight Destination: " + destination +
+                " - " + "ID: " + id +
+                " - " + "Passenger List: " + passengerList + "\r\n";
     }
 
     public void setDestination(String destination) {
@@ -49,7 +78,26 @@ public class Flight {
         return passengerList;
     }
 
+    public boolean addPassenger(Passenger passenger) {
+        if (passengerList.contains(passenger)) {
+            return false;
+        }
+        this.passengerList.add(passenger);
+        return true;
+    }
+
     public void setPassengerList(ArrayList<Passenger> passengerList) {
         this.passengerList = passengerList;
     }
+
+    public static void displayAllAvailableFlights(ArrayList<Flight> flightList) {
+        System.out.println("All Available Flights: ");
+        System.out.println(flightList);
+    }
+
+    public static void cancelFlight(Flight flightObject, ArrayList<Flight> flightList){
+
+        flightList.remove(flightObject);
+    }
+
 }
