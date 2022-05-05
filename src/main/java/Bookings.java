@@ -1,9 +1,6 @@
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.Map;
 import java.util.Scanner;
-import java.io.FileWriter;
 
 
 public class Bookings {
@@ -23,11 +20,13 @@ public class Bookings {
 
             writeBookings.flush();
 
-            try{
                 writeBookings.close();
-            } catch (Exception e){
 
-            }
+        }
+
+        public static void readFile() throws FileNotFoundException {
+
+            File bookings = new File("/Users/Alex/Documents/Bookings.txt");
 
             Scanner scanner = new Scanner(bookings);
 
@@ -35,9 +34,6 @@ public class Bookings {
 
                 System.out.println(scanner.nextLine());
             }
-
-
-
         }
 
 

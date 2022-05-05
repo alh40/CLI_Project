@@ -1,3 +1,6 @@
+import javax.management.relation.RelationNotFoundException;
+import java.awt.print.Book;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 
@@ -66,6 +69,7 @@ public class Main {
                     System.out.println("Please input a series of numbers");
                 }
                 Passenger newPassenger = new Passenger(name, mobileNumber, passengerId.get(0));
+                passengerId.remove(0);
                 passengerList.add(newPassenger);
                 passengerHashMap.put(newPassenger.getUniqueId(), newPassenger);
 
@@ -95,6 +99,7 @@ public class Main {
                 break;
             }
         }
+
         while(true) {
             System.out.println("Would you like to cancel a Flight? y / n");
             char c = Character.valueOf(input.nextLine().charAt(0));
@@ -114,35 +119,60 @@ public class Main {
             if (c == 'n') {
                 break;
             }
+        }
+
+        while(true){
+
+            System.out.println("Finding a particular destination? y / n");
+            char c4 = Character.valueOf(input.nextLine().charAt(0));
+
+            if(c4 == 'y'){
+
+                System.out.println("Please enter your destination here: ");
+                String searchDestination = input.nextLine();
+
+               searchFlight(searchDestination);
+
+            }else if(c4 == 'n'){
+                break;
+            }
+
+        }
 
             while (true) {
 
-                System.out.println("Would you like to create a Booking?");
+                System.out.println("Would you like to create a Booking? y / n");
                 char c2 = Character.valueOf(input.nextLine().charAt(0));
-
+                System.out.println(passengerList);
                 if (c2 == 'y') {
-                    System.out.println(passengerList);
+
 
                     System.out.println("Enter your ID number here: ");
                     int idNum = Integer.valueOf(input.nextLine());
 
                     System.out.println("Enter the Flight ID you would like to book: ");
-                    int flightId = Integer.valueOf(input.nextLine());
+//                    try {
+                        int flightId = Integer.valueOf(input.nextLine());
 
-                    Passenger passenger = passengerHashMap.get(idNum);
-
-                    for (int i = 0; i < flightList.size(); i++) {
-                        if (flightList.get(i).getId() == flightId) {
-                            fileOutput.add(passengerBookFlight(passenger, flightList.get(i)));
-                            System.out.println(passengerBookFlight(passenger, flightList.get(i)));
+                        Passenger passenger = passengerHashMap.get(idNum);
 
 
-                            passengerHashMap.remove(idNum);
-                            passengerList.remove(passengerList.get(i));
-
+                        for (int i = 0; i < flightList.size(); i++) {
+                            if (flightList.get(i).getId() == flightId) {
+                                try {
+                                    String bookingResult = passengerBookFlight(passenger, flightList.get(i));
+                                    fileOutput.add(bookingResult);
+                                }
+                                catch (RuntimeException e) {
+                                    System.out.println("Flight does not exist!");
+                                }
+                                System.out.println(passengerBookFlight(passenger, flightList.get(i)));
+                            }
                         }
-                    }
-
+//                    }
+//                    catch (RuntimeException e) {
+//                        System.out.println("Flight does not exist!");
+//                    }
 
                     System.out.println(flightList);
 
@@ -152,19 +182,29 @@ public class Main {
                 }
 
             }
+            try {
+                Bookings.writeFile();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
 
-        }
+                System.out.println("Would you like to view the bookings? y / n");
+                char c3 = Character.valueOf(input.nextLine().charAt(0));
 
-        try {
-            Bookings.writeFile();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        System.out.println(passengerList);
-        System.out.println(passengerHashMap);
-        Flight.displayAllAvailableFlights(flightList);
+                if (c3 == 'y') {
+
+                    try {
+                        Bookings.readFile();
+                    } catch (FileNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
 
 
+                System.out.println(passengerList);
+                System.out.println(passengerHashMap);
+                Flight.displayAllAvailableFlights(flightList);
+
+            }
     }
 
 
@@ -176,7 +216,7 @@ public class Main {
     }
 
 
-    public static String passengerBookFlight(Passenger passenger, Flight flight) {
+    public static String passengerBookFlight(Passenger passenger, Flight flight) throws RuntimeException {
 
         for (Flight f: flightList) {
             if (f.getId() == flight.getId()) {
@@ -187,19 +227,20 @@ public class Main {
                             flight.getId() +
                             " with destination " +
                             flight.getDestination() + ".";
-                }
-                else {
+                } else {
                     return "Something has gone wrong. Passenger " +
                             passenger.getName() +
                             " may have already booked this flight.";
                 }
             }
         }
-        return "Something has gone wrong. Please try again.";
+        throw new RuntimeException();
     }
 
 
-    public static ArrayList<Flight> searchFlight(String destination) {
+
+
+    public static void searchFlight(String destination) {
         ArrayList<Flight> foundFlight = new ArrayList<>();
 
         flightList.forEach(flight -> {
@@ -207,11 +248,10 @@ public class Main {
                 foundFlight.add(flight);
             }
         });
-
-        return foundFlight;
+        printSearchResult(foundFlight);
     }
 
-    public static ArrayList<Flight> searchFlight(Integer id) {
+    public static void searchFlight(Integer id) {
         ArrayList<Flight> foundFlight = new ArrayList<>();
 
         flightList.forEach(flight -> {
@@ -219,10 +259,19 @@ public class Main {
                 foundFlight.add(flight);
             }
         });
-
-        return foundFlight;
+        printSearchResult(foundFlight);
     }
 
+    public static void printSearchResult(ArrayList<Flight> foundFlight) {
+        if (!foundFlight.isEmpty()) {
+            System.out.println("Flight(s) found.");
+            for (Flight flight: foundFlight) {
+                System.out.println(flight.toString());
+            }
+            return;
+        }
+        System.out.println("No flight found! Please try again.");
+    }
 
 }
 

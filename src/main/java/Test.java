@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class Test {
 
@@ -16,6 +15,7 @@ public class Test {
         System.out.println("====== ADD NEW TEST =====");
         passengerBookFlightTest_addNew();
         System.out.println("=========================================");
+        System.out.println("");
         System.out.println("====== ADD REPEAT TEST =====");
         passengerBookFlightTest_addRepeat();
         System.out.println("=========================================");
@@ -66,8 +66,9 @@ public class Test {
         flightListForPrintToFile.get(passenger.getUniqueId()).add(flight);
     }
 
+
     // ------ SEARCH FLIGHT -------------------------------------------------------------------------------------------
-    public static ArrayList<Flight> searchFlight(String destination) {
+    public static void searchFlight(String destination) {
         ArrayList<Flight> foundFlight = new ArrayList<>();
 
         flightList.forEach(flight -> {
@@ -76,15 +77,10 @@ public class Test {
             }
         });
 
-//        if (foundFlight.isEmpty()) {
-//            return "No flight found! Please try again.";
-//        }
-//
-//        return
-        return foundFlight;
+        printSearchResult(foundFlight);
     }
 
-    public static ArrayList<Flight> searchFlight(Integer id) {
+    public static void searchFlight(Integer id) {
         ArrayList<Flight> foundFlight = new ArrayList<>();
 
         flightList.forEach(flight -> {
@@ -93,7 +89,18 @@ public class Test {
             }
         });
 
-        return foundFlight;
+        printSearchResult(foundFlight);
+    }
+
+    public static void printSearchResult(ArrayList<Flight> foundFlight) {
+        if (!foundFlight.isEmpty()) {
+            System.out.println("Flight(s) found.");
+            for (Flight flight: foundFlight) {
+                System.out.println(flight.toString());
+            }
+            return;
+        }
+        System.out.println("No flight found! Please try again.");
     }
     // ------ SEARCH FLIGHT -------------------------------------------------------------------------------------------
 
@@ -155,19 +162,16 @@ public class Test {
         System.out.println(flightListForPrintToFile);
     }
 
-
     // Test
     public static void searchFlightTest_ByDestination() {
         flightList = Flight.flightList();
-
-        System.out.println(searchFlight("Berlin"));
+        searchFlight("Berlin");
     }
 
     // Test
     public static void searchFlightTest_ById() {
         flightList = Flight.flightList();
-
-        System.out.println(searchFlight(2));
+        searchFlight(2);
     }
 
     // ----------- TEST -----------------------------------------------------------------------------------------------
