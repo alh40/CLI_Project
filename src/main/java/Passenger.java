@@ -1,4 +1,4 @@
-import java.lang.reflect.Array;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -23,23 +23,23 @@ public class Passenger {
         Passenger Passenger3 = Passenger.getPassenger3();
         Passenger Passenger4 = Passenger.getPassenger4();
 
-            passengerList.add(Passenger1);
-            passengerList.add(Passenger2);
-            passengerList.add(Passenger3);
-            passengerList.add(Passenger4);
+        passengerList.add(Passenger1);
+        passengerList.add(Passenger2);
+        passengerList.add(Passenger3);
+        passengerList.add(Passenger4);
 
-            return passengerList;
+        return passengerList;
     }
 
     public static HashMap<Integer, Passenger> passengerHashMap(){
         ArrayList<Passenger> passengerList = Passenger.passengersList();
 
-            HashMap<Integer, Passenger> passengerHashMap = new HashMap<>();
+        HashMap<Integer, Passenger> passengerHashMap = new HashMap<>();
         passengerHashMap.put(passengerList.get(0).getUniqueId(), passengerList.get(0));
         passengerHashMap.put(passengerList.get(1).getUniqueId(), passengerList.get(1));
         passengerHashMap.put(passengerList.get(2).getUniqueId(), passengerList.get(2));
         passengerHashMap.put(passengerList.get(3).getUniqueId(), passengerList.get(3));
-            return passengerHashMap;
+        return passengerHashMap;
 
     }
 
@@ -88,8 +88,8 @@ public class Passenger {
 
     @Override
     public String toString() {
-        return  "Passenger: [Name:" + name + " -" +
-                " Contact:" + contactInformation + " -" +
-                " ID:" + uniqueId + "]";
+        return  "Passenger name: " + name + " -" +
+                " Contact: " + contactInformation + " -" +
+                " ID: " + uniqueId;
     }
 }

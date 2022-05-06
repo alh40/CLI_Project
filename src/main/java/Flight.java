@@ -52,11 +52,6 @@ public class Flight {
 
     @Override
     public String toString() {
-//        return "Flight{" +
-//                "destination='" + destination + '\'' +
-//                ", id=" + id +
-//                ", passengerList=" + passengerList +
-//                '}';
         return  "Flight Destination: " + destination +
                 " - " + "ID: " + id +
                 " - " + "Passenger List: " + passengerList + "\r\n";
@@ -92,6 +87,7 @@ public class Flight {
 
     public static void displayAllAvailableFlights(ArrayList<Flight> flightList) {
         System.out.println("All Available Flights: ");
+        System.out.println(" ");
         System.out.println(flightList);
     }
 
